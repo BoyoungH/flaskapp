@@ -1,61 +1,49 @@
 pipeline {
 
-    agent any
+   agent any
 
-    environment {
+   parameters {
 
-        NEW_VERSION = '1.0.0'
+      string(name: 'VERSION', defaultValue: '', description: 'deployment version')
 
-    }
+      choice(name: 'VERSION', choices: ['1.1.0','1.2.0','1.3.0'], description: '')
 
-    stages {
+      booleanParam(name: 'executeTests', defaultValue: true, description: '')
 
-        stage("build") {
+   }
 
-            steps {
+   stages {
 
-                echo 'building the application...'
+      stage("build") {
 
-                echo "building version ${NEW_VERSION}"
+         steps {
 
-            }
+            echo 'building the applicaiton...'
 
-        }
+         }
 
-        stage("test") {
+      }
 
-            steps {
+      stage("test") {
 
-                echo 'testing the application...'
+         steps {
 
-            }
+            echo 'testing the applicaiton...'
 
-        }
+         }
 
-        stage("deploy") {
+      }
 
-            steps {
+      stage("deploy") {
 
-                echo 'deploying the application...'
+         steps {
 
-                withCredentials([[$class: 'UsernamePasswordMultiBinding',
+            echo 'deploying the applicaiton...'
 
-                credentialsId: 'admin_user_credentials', 
+         }
 
-                usernameVariable: 'USER', 
+      }
 
-                passwordVariable: 'PWD']]) {
-
-                    sh 'printf ${USER}'
-
-                }
-
-            }
-
-        }
-
-    }
+   }
 
 }
-
-
